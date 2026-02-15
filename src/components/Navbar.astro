@@ -5,92 +5,234 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const base = '/fordima-academy';
 
-// Liste des langues pour le sélecteur (pourrait aussi être dans ui.ts)
 const languages = [
-  { code: 'en', label: 'EN', flag: '🇬🇧' },
-  { code: 'fr', label: 'FR', flag: '🇫🇷' },
-  { code: 'es', label: 'ES', flag: '🇪🇸' },
-  { code: 'ar', label: 'AR', flag: '🇸🇦' }
+  { code: 'en', label: 'English', flag: '🇬🇧' },
+  { code: 'fr', label: 'Français', flag: '🇫🇷' },
+  { code: 'es', label: 'Español', flag: '🇪🇸' },
+  { code: 'ar', label: 'العربية', flag: '🇸🇦' }
 ];
 ---
 
-<nav class="k-navbar k-glass">
-  <div class="k-container k-d-flex k-align-center k-justify-between">
-    <a href={`${base}/${lang}/`} class="k-logo k-d-flex k-align-center">
-      <img 
-        src={`${base}/logo-fordima.png`} 
-        alt="Fordima Logo" 
-        style="height: 60px;"
-      />
-      <span class="k-ml-2 k-d-none k-d-md-inline-block">
+<nav class="premium-nav">
+  <div class="k-container nav-wrapper">
+    
+    <a href={`${base}/${lang}/`} class="brand-container">
+      <div class="logo-box">
+        <img src={`${base}/logo-fordima.png`} alt="Logo" class="logo-img" />
+      </div>
+      <span class="brand-text">
         FORDIMA <span class="k-text-primary">ACADEMY</span>
       </span>
     </a>
 
-    <div class="k-d-flex k-align-center">
-      <ul class="k-nav-links k-mr-4" id="main-menu">
-        <li><a href={`${base}/${lang}/docs/`}>{t('nav.docs')}</a></li>
-        <li><a href="#books">{t('nav.books')}</a></li>
-        
-        <li class="k-ml-2">
-            <select 
-                onchange="window.location.pathname = this.value" 
-                class="lang-select"
-            >
-                {languages.map((l) => (
-                    <option 
-                        value={`${base}/${l.code}/`} 
-                        selected={lang === l.code}
-                    >
-                        {l.flag} {l.label}
-                    </option>
-                ))}
-            </select>
+    <div class="nav-actions">
+      <ul class="nav-menu" id="main-menu">
+        <li><a href={`${base}/${lang}/docs/`} class="nav-link">{t('nav.docs')}</a></li>
+        <li><a href="#books" class="nav-link">{t('nav.books')}</a></li>
+        <li class="k-d-lg-none k-mt-3">
+            <div class="lang-wrapper mobile-lang">
+                <select onchange="window.location.pathname = this.value" class="premium-lang-select">
+                  {languages.map((l) => (
+                    <option value={`${base}/${l.code}/`} selected={lang === l.code}>{l.label}</option>
+                  ))}
+                </select>
+            </div>
         </li>
       </ul>
 
-      <a href="https://github.com/fomadev" class="k-btn k-btn-primary k-btn-sm" target="_blank">
-        {t('nav.github')}
+      <div class="divider k-d-none k-d-lg-block"></div>
+
+      <div class="lang-wrapper k-d-none k-d-lg-flex">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+        <select onchange="window.location.pathname = this.value" class="premium-lang-select">
+          {languages.map((l) => (
+            <option value={`${base}/${l.code}/`} selected={lang === l.code}>{l.label}</option>
+          ))}
+        </select>
+      </div>
+
+      <a href="https://github.com/fomadev" class="github-btn" target="_blank">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+        <span class="k-d-none k-d-sm-inline">{t('nav.github')}</span>
       </a>
 
-      <button class="k-burger k-ml-2" data-kitoko="burger" data-target="#main-menu">
-        ☰
+      <button class="burger-btn k-d-lg-none" aria-label="Toggle Menu" id="burger-trigger">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
       </button>
     </div>
   </div>
 </nav>
 
 <style>
-    .k-glass {
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-        background: rgba(255, 255, 255, 0.8) !important;
-        backdrop-filter: blur(10px);
-        border-bottom: 1px solid #e2e8f0;
+  .premium-nav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px) saturate(180%);
+    border-bottom: 1px solid rgba(226, 232, 240, 0.7);
+    padding: 0.75rem 0;
+  }
+
+  .nav-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .brand-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  .logo-box {
+    background: #fff;
+    padding: 4px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+
+  .logo-img { height: 40px; width: auto; }
+
+  .brand-text {
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: #0f172a;
+  }
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  /* Menu Navigation */
+  .nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-link {
+    color: #64748b;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: color 0.3s;
+  }
+
+  .nav-link:hover { color: #2563eb; }
+
+  /* Sélecteur de langue */
+  .lang-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #f1f5f9;
+    padding: 6px 12px;
+    border-radius: 20px;
+  }
+
+  .premium-lang-select {
+    border: none;
+    background: transparent;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    outline: none;
+  }
+
+  /* Bouton GitHub */
+  .github-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #0f172a;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+  }
+
+  .github-btn:hover { background: #2563eb; transform: translateY(-2px); }
+
+  /* Burger Menu (Lignes) */
+  .burger-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .line {
+    width: 100%;
+    height: 3px;
+    background-color: #0f172a;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+  }
+
+  /* Responsivité Mobile */
+  @media (max-width: 991px) {
+    .nav-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: white;
+      flex-direction: column;
+      padding: 2rem;
+      border-bottom: 1px solid #e2e8f0;
+      clip-path: circle(0% at top right); /* Menu caché par défaut */
+      transition: clip-path 0.5s ease-in-out;
     }
 
-    .lang-select {
-        padding: 5px 10px;
-        border-radius: 20px;
-        border: 1px solid #e2e8f0;
-        background: white;
-        cursor: pointer;
-        font-size: 0.85rem;
-        outline: none;
+    .nav-menu.is-active {
+      clip-path: circle(150% at top right); /* Animation d'ouverture */
     }
 
-    .lang-select:hover {
-        border-color: #2563eb;
-    }
+    .brand-text { font-size: 0.9rem; }
+    
+    /* Animation du burger en "X" quand actif */
+    .burger-btn.is-active .line:nth-child(1) { transform: translateY(8.5px) rotate(45deg); }
+    .burger-btn.is-active .line:nth-child(2) { opacity: 0; }
+    .burger-btn.is-active .line:nth-child(3) { transform: translateY(-8.5px) rotate(-45deg); }
+  }
 
-    /* Inversion des marges pour l'Arabe */
-    :global([dir="rtl"]) .k-ml-2 {
-        margin-left: 0 !important;
-        margin-right: 0.5rem !important;
-    }
-    :global([dir="rtl"]) .k-mr-4 {
-        margin-right: 0 !important;
-        margin-left: 1.5rem !important;
-    }
+  .divider { width: 1px; height: 24px; background: #e2e8f0; }
 </style>
+
+<script>
+  // Script pour gérer l'ouverture du menu mobile
+  const burger = document.getElementById('burger-trigger');
+  const menu = document.getElementById('main-menu');
+
+  if (burger && menu) {
+    burger.addEventListener('click', () => {
+      burger.classList.toggle('is-active');
+      menu.classList.toggle('is-active');
+    });
+
+    // Fermer le menu si on clique sur un lien
+    const links = menu.querySelectorAll('a');
+    links.forEach(link => {
+        link.addEventListener('click', () => {
+            burger.classList.remove('is-active');
+            menu.classList.remove('is-active');
+        });
+    });
+  }
+</script>
