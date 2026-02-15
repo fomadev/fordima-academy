@@ -1,0 +1,80 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  link: string;
+  type: 'library' | 'book' | 'tutorial';
+  badge?: string;
+  isExternal?: boolean;
+}
+
+const { title, description, link, type, badge, isExternal = false } = Astro.props;
+
+// Icones selon le type (Emoji pour la simplicité, tu pourras mettre des SVG plus tard)
+const icons = {
+  library: '📦',
+  book: '📚',
+  tutorial: '🚀'
+};
+
+const base = '/fordima-academy';
+---
+
+<div class="k-card">
+  <div class="k-card-body">
+    <div class="k-d-flex k-justify-between k-align-start k-mb-2">
+      <span style="font-size: 1.5rem;">{icons[type]}</span>
+      {badge && (
+        <span class="badge">{badge}</span>
+      )}
+    </div>
+    
+    <h3 class="k-card-title">{title}</h3>
+    <p class="k-card-text">{description}</p>
+    
+    <div class="k-mt-auto">
+      <a 
+        href={isExternal ? link : `${base}${link}`} 
+        target={isExternal ? "_blank" : "_self"}
+        class=`k-btn ${type === 'book' ? 'k-btn-outline' : 'k-btn-primary'} k-btn-sm`
+      >
+        {type === 'book' ? 'Download PDF' : 'Read Docs'}
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .k-card {
+    height: 100%;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border: 1px solid #e2e8f0 !important;
+  }
+
+  .k-card:hover {
+    transform: translateY(-8px);
+    border-color: #2563eb !important;
+    box-shadow: 0 12px 20px -5px rgba(37, 99, 235, 0.1) !important;
+  }
+
+  .badge {
+    background-color: #dcfce7;
+    color: #166534;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 12px;
+    text-transform: uppercase;
+  }
+
+  .k-card-title {
+    color: #0f172a !important;
+    margin-top: 0.5rem;
+  }
+
+  /* Ajustement pour l'Arabe */
+  :global([dir="rtl"]) .badge {
+    left: auto;
+    right: 0;
+  }
+</style>
