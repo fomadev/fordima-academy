@@ -1,0 +1,23 @@
+---
+import DocLayout from '../../../layouts/DocLayout.astro';
+
+const kivaSections = [
+  { title: "Introduction", link: "kiva-db/" },
+  { title: "Installation", link: "kiva-db/install" },
+  { title: "Configuration", link: "kiva-db/config" }
+];
+---
+
+<DocLayout 
+  title="Kiva-DB Documentation" 
+  description="Apprenez à utiliser Kiva-DB, la base de données FomaDev."
+  sections={kivaSections}
+>
+  <h1>Bienvenue dans Kiva-DB</h1>
+  <p>Kiva-DB est une solution de stockage haute performance...</p>
+  
+  <h2>Installation rapide</h2>
+  <pre>npm install kiva-db</pre>
+  
+  <p>Une fois installé, vous pouvez configurer votre instance via le fichier <code>kiva.config.js</code>.</p>
+</DocLayout>
