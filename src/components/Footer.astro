@@ -1,0 +1,95 @@
+---
+const { currentLocale } = Astro;
+const year = new Date().getFullYear();
+
+// Traductions pour le pied de page
+const labels = {
+  en: {
+    madeBy: "Created with passion by",
+    powered: "Powered by",
+    links: "Useful Links",
+    contact: "Contact Us"
+  },
+  fr: {
+    madeBy: "Créé avec passion par",
+    powered: "Propulsé par",
+    links: "Liens utiles",
+    contact: "Nous contacter"
+  },
+  es: {
+    madeBy: "Creado con pasión por",
+    powered: "Impulsado por",
+    links: "Enlaces útiles",
+    contact: "Contáctenos"
+  },
+  ar: {
+    madeBy: "تم إنشاؤه بشغف بواسطة",
+    powered: "مشغل بواسطة",
+    links: "روابط مفيدة",
+    contact: "اتصل بنا"
+  }
+};
+
+const t = labels[currentLocale] || labels.en;
+---
+
+<footer class="k-p-5 k-mt-5" style="background-color: #0f172a; color: #f8fafc; border-top: 4px solid #2563eb;">
+  <div class="k-container">
+    <div class="k-row">
+      
+      <div class="k-col-md-4 k-mb-4">
+        <h3 class="k-h3 k-text-primary k-mb-2">FORDIMA ACADEMY</h3>
+        <p style="color: #94a3b8; font-size: 0.9rem;">
+          {t.madeBy} <a href="https://github.com/fomadev" class="k-text-bold" style="color: #fff;">FomaDev</a>.
+          <br />
+          {t.powered} <span class="k-text-primary">KitokoCSS</span>.
+        </p>
+      </div>
+
+      <div class="k-col-md-4 k-mb-4">
+        <h4 class="k-h4 k-mb-3" style="font-size: 1.1rem; border-bottom: 1px solid #1e293b; padding-bottom: 5px;">
+          {t.links}
+        </h4>
+        <ul style="list-style: none; padding: 0; color: #94a3b8; font-size: 0.9rem;">
+          <li class="k-mb-1"><a href="https://github.com/fomadev/kitokocss" target="_blank">KitokoCSS Framework</a></li>
+          <li class="k-mb-1"><a href="#">FomaDev Projects</a></li>
+          <li class="k-mb-1"><a href="#">Open Source Community</a></li>
+        </ul>
+      </div>
+
+      <div class="k-col-md-4 k-mb-4">
+        <h4 class="k-h4 k-mb-3" style="font-size: 1.1rem; border-bottom: 1px solid #1e293b; padding-bottom: 5px;">
+          {t.contact}
+        </h4>
+        <p style="color: #94a3b8; font-size: 0.9rem;">
+          Email: contact@fomadev.com<br />
+          GitHub: @fomadev
+        </p>
+      </div>
+
+    </div>
+
+    <hr style="border: 0; border-top: 1px solid #1e293b; margin: 2rem 0;" />
+
+    <div class="k-text-center">
+      <p style="color: #64748b; font-size: 0.8rem; margin: 0;">
+        &copy; {year} Fordima Academy. All rights reserved. 
+        <br />
+        <span class="k-text-primary">Beautifully</span> crafted in Lingala spirit ("Kitoko").
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+    footer a {
+        transition: color 0.3s ease;
+    }
+    footer a:hover {
+        color: #2563eb !important;
+    }
+    /* Inversion du texte pour l'Arabe */
+    [dir="rtl"] .k-text-center {
+        text-align: center !important;
+    }
+</style>
