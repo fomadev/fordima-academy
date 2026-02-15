@@ -4,9 +4,15 @@ import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
 
+// 1. Définition de la structure pour TypeScript
+interface Props {
+  title: string;
+  description?: string;
+  sections: { title: string; link: string }[]; // On dit que c'est un tableau d'objets
+}
+
 const { title, description, sections } = Astro.props;
 
-// Utilisation du système i18n
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const isRTL = lang === 'ar';
@@ -55,12 +61,10 @@ const base = '/fordima-academy';
     transform: translateX(5px);
   }
 
-  /* Support RTL pour l'animation de survol */
   :global([dir="rtl"]) .doc-link:hover {
     transform: translateX(-5px);
   }
   
-  /* Style pour le texte de la doc */
   article :global(h1) { color: #0f172a; margin-bottom: 1.5rem; font-size: 2rem; }
   article :global(h2) { color: #1e293b; margin-top: 2rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; }
   article :global(pre) { background: #1e293b; color: #fff; padding: 1.2rem; border-radius: 8px; overflow-x: auto; margin: 1.5rem 0; }

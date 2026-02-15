@@ -4,9 +4,15 @@ import Navbar from '../../components/Navbar.astro';
 import Footer from '../../components/Footer.astro';
 import DocCard from '../../components/DocCard.astro';
 
-// Titre et description pour le SEO
+// Import des utilitaires de traduction
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+// Titre et description pour le SEO (Correction du mot-clé const)
 const title = "Welcome to the Hub of Knowledge";
-description = "Explore FomaDev official documentations, libraries, and expert tech books.";
+const description = "Explore FomaDev official documentations, libraries, and expert tech books.";
 ---
 
 <MainLayout title={title} description={description}>
@@ -15,9 +21,11 @@ description = "Explore FomaDev official documentations, libraries, and expert te
 
   <section class="k-pt-5 k-pb-5 k-text-center" style="background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%); border-bottom: 1px solid #e2e8f0;">
     <div class="k-container">
-      <h1 class="k-h1 k-mb-3">Master Your <span class="k-text-primary">Development</span> Skills</h1>
+      <h1 class="k-h1 k-mb-3">
+        {t('hero.title').split('Development')[0]}<span class="k-text-primary">Development</span> {t('hero.title').split('Development')[1]}
+      </h1>
       <p class="k-mb-4 k-text-bold" style="color: #64748b; max-width: 600px; margin-left: auto; margin-right: auto;">
-        Access high-quality documentation for FomaDev projects and curated resources for modern frameworks.
+        {t('hero.subtitle')}
       </p>
       
       <div class="k-row k-justify-center">
@@ -25,7 +33,7 @@ description = "Explore FomaDev official documentations, libraries, and expert te
           <div style="position: relative;">
             <input 
               type="text" 
-              placeholder="Search for a library, book, or tutorial..." 
+              placeholder={t('search.placeholder')} 
               style="width: 100%; padding: 1.2rem; border-radius: 50px; border: 2px solid #2563eb; font-size: 1rem; outline: none; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);"
             />
           </div>
@@ -37,7 +45,9 @@ description = "Explore FomaDev official documentations, libraries, and expert te
   <section class="k-container k-mt-5 k-mb-5">
     <div class="k-d-flex k-justify-between k-align-center k-mb-4">
       <h2 class="k-h2 k-m-0">Featured <span class="k-text-primary">Resources</span></h2>
-      <a href="/fordima-academy/en/docs/" class="k-btn k-btn-outline k-btn-sm">View All</a>
+      <a href={`/fordima-academy/${lang}/docs/`} class="k-btn k-btn-outline k-btn-sm">
+        {lang === 'fr' ? 'Voir tout' : 'View All'}
+      </a>
     </div>
 
     <div class="k-row">
@@ -57,7 +67,7 @@ description = "Explore FomaDev official documentations, libraries, and expert te
           title="Kiva-DB" 
           description="High-performance database system by FomaDev." 
           type="library"
-          link="/en/docs/kiva-db/"
+          link={`/${lang}/docs/kiva-db/`}
           badge="Beta"
         />
       </div>
@@ -79,7 +89,7 @@ description = "Explore FomaDev official documentations, libraries, and expert te
 </MainLayout>
 
 <style>
-  /* Animation légère sur les cartes (s'applique aussi aux composants DocCard) */
+  /* Animation légère sur les cartes */
   .k-card, :global(.k-card) {
     transition: transform 0.3s ease;
   }
