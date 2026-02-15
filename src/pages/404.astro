@@ -1,0 +1,62 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+// Traductions spécifiques pour la 404 (À ajouter idéalement dans ui.ts)
+const errorTitle = {
+    en: "Lost in Space?",
+    fr: "Perdu dans l'Espace ?",
+    ar: "هل أنت تائه؟",
+    es: "¿Perdido en el espacio?"
+};
+
+const errorDesc = {
+    en: "The page you are looking for doesn't exist or has been moved.",
+    fr: "La page que vous recherchez n'existe pas ou a été déplacée.",
+    ar: "الصفحة التي تبحث عنها غير موجودة أو تم نقلها.",
+    es: "La página que buscas no existe o ha sido movida."
+};
+
+const backHome = {
+    en: "Back to Home",
+    fr: "Retour à l'accueil",
+    ar: "العودة إلى الصفحة الرئيسية",
+    es: "Volver al inicio"
+};
+---
+
+<MainLayout title="404 - Not Found" description="Page not found">
+    <Navbar slot="header" />
+
+    <section class="k-d-flex k-align-center k-justify-center k-text-center" style="min-height: 70vh;">
+        <div class="k-container">
+            <h1 class="k-display-1 k-text-primary k-mb-0" style="font-size: 8rem; font-weight: 900; opacity: 0.2;">404</h1>
+            <h2 class="k-h2 k-mb-3" style="margin-top: -3rem;">{errorTitle[lang] || errorTitle.en}</h2>
+            <p class="k-mb-4 k-text-muted" style="max-width: 500px; margin-left: auto; margin-right: auto;">
+                {errorDesc[lang] || errorDesc.en}
+            </p>
+            <a href={`/fordima-academy/${lang}/`} class="k-btn k-btn-primary k-btn-lg k-px-5">
+                {backHome[lang] || backHome.en}
+            </a>
+        </div>
+    </section>
+
+    <Footer slot="footer" />
+</MainLayout>
+
+<style>
+    /* Petite animation flottante pour le gros 404 */
+    h1 {
+        animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
+    }
+</style>
