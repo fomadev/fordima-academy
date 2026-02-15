@@ -1,0 +1,22 @@
+---
+// Ce composant ne contient pas de HTML, il gère uniquement la redirection.
+---
+
+<meta http-equiv="refresh" content="0;url=/fordima-academy/en/" />
+
+<script>
+  // Détection de la langue du navigateur
+  const language = window.navigator.language.toLowerCase();
+  const base = '/fordima-academy';
+
+  if (language.startsWith('fr')) {
+    window.location.pathname = `${base}/fr/`;
+  } else if (language.startsWith('es')) {
+    window.location.pathname = `${base}/es/`;
+  } else if (language.startsWith('ar')) {
+    window.location.pathname = `${base}/ar/`;
+  } else {
+    // Par défaut, on redirige vers l'anglais
+    window.location.pathname = `${base}/en/`;
+  }
+</script>
