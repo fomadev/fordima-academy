@@ -10,71 +10,132 @@ interface Props {
 
 const { title, description, link, type, badge, isExternal = false } = Astro.props;
 
-// Icones selon le type (Emoji pour la simplicité, tu pourras mettre des SVG plus tard)
+// Chemins SVG pour chaque type
 const icons = {
-  library: '📦',
-  book: '📚',
-  tutorial: '🚀'
+  library: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>`,
+  book: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M8 7h6"/><path d="M8 11h8"/></svg>`,
+  tutorial: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 14 1.45-2.9L10 9.65 7.1 8.2 6 5.3 4.9 8.2 2 9.65l2.55 1.45L6 14Z"/><path d="m18 22 1.45-2.9L22 17.65 19.1 16.2 18 13.3l-1.1 2.9L14 17.65l2.55 1.45L18 22Z"/><path d="M15.8 8.1 9.7 14.2"/><path d="M14 8l1.1-2.9L18 4l-2.9-1.1L14 0l-1.1 2.9L10 4l2.9 1.1L14 8Z"/></svg>`
 };
 
 const base = '/fordima-academy';
 ---
 
-<div class="k-card">
-  <div class="k-card-body">
-    <div class="k-d-flex k-justify-between k-align-start k-mb-2">
-      <span style="font-size: 1.5rem;">{icons[type]}</span>
+<div class={`academy-card type-${type}`}>
+  <div class="card-inner">
+    <div class="card-header k-d-flex k-justify-between k-align-start k-mb-3">
+      <div class="icon-wrapper" set:html={icons[type]} />
+      
       {badge && (
-        <span class="badge">{badge}</span>
+        <span class="custom-badge">{badge}</span>
       )}
     </div>
     
-    <h3 class="k-card-title">{title}</h3>
-    <p class="k-card-text">{description}</p>
+    <div class="card-content">
+      <h3 class="k-h5 card-title">{title}</h3>
+      <p class="card-description">{description}</p>
+    </div>
     
-    <div class="k-mt-auto">
+    <div class="card-footer k-mt-auto">
       <a 
         href={isExternal ? link : `${base}${link}`} 
         target={isExternal ? "_blank" : "_self"}
-        class=`k-btn ${type === 'book' ? 'k-btn-outline' : 'k-btn-primary'} k-btn-sm`
+        class="action-button"
       >
-        {type === 'book' ? 'Download PDF' : 'Read Docs'}
+        <span>{type === 'book' ? 'Download PDF' : 'Read Docs'}</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="arrow-icon"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
       </a>
     </div>
   </div>
 </div>
 
 <style>
-  .k-card {
+  .academy-card {
     height: 100%;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    border: 1px solid #e2e8f0 !important;
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px solid #f1f5f9;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
   }
 
-  .k-card:hover {
-    transform: translateY(-8px);
-    border-color: #2563eb !important;
-    box-shadow: 0 12px 20px -5px rgba(37, 99, 235, 0.1) !important;
+  .academy-card:hover {
+    transform: translateY(-10px);
+    border-color: #2563eb;
+    box-shadow: 0 20px 25px -5px rgba(37, 99, 235, 0.1), 0 10px 10px -5px rgba(37, 99, 235, 0.04);
   }
 
-  .badge {
-    background-color: #dcfce7;
-    color: #166534;
-    font-size: 0.7rem;
-    font-weight: 700;
-    padding: 2px 8px;
+  /* Style des Icônes */
+  .icon-wrapper {
+    padding: 12px;
     border-radius: 12px;
+    background: #f8fafc;
+    color: #64748b;
+    transition: all 0.3s ease;
+  }
+
+  .academy-card:hover .icon-wrapper {
+    background: #2563eb;
+    color: #ffffff;
+    transform: rotate(-5deg) scale(1.1);
+  }
+
+  /* Badges colorés par type */
+  .custom-badge {
+    background: #dcfce7;
+    color: #166534;
+    font-size: 0.65rem;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
   }
 
-  .k-card-title {
-    color: #0f172a !important;
-    margin-top: 0.5rem;
+  /* Typography */
+  .card-title {
+    color: #0f172a;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
   }
 
-  /* Ajustement pour l'Arabe */
-  :global([dir="rtl"]) .badge {
-    left: auto;
-    right: 0;
+  .card-description {
+    color: #64748b;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Bouton Interactif */
+  .action-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #2563eb;
+    transition: gap 0.3s ease;
+  }
+
+  .action-button:hover {
+    gap: 12px;
+  }
+
+  .arrow-icon {
+    transition: transform 0.3s ease;
+  }
+
+  /* Variantes subtiles selon le type */
+  .type-book .custom-badge { background: #fef9c3; color: #854d0e; }
+  .type-tutorial .custom-badge { background: #e0e7ff; color: #3730a3; }
+
+  /* Support RTL */
+  [dir="rtl"] .action-button svg {
+    transform: scaleX(-1);
   }
 </style>
