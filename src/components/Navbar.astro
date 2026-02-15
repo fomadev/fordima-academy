@@ -1,0 +1,78 @@
+---
+const { currentLocale } = Astro;
+const base = '/fordima-academy';
+
+// Définition des traductions simples pour la navigation
+const labels = {
+  en: { docs: 'Documentation', books: 'Books', github: 'GitHub' },
+  fr: { docs: 'Documentation', books: 'Livres', github: 'GitHub' },
+  es: { docs: 'Documentación', books: 'Libros', github: 'GitHub' },
+  ar: { docs: 'وثائق', books: 'كتب', github: 'GitHub' }
+};
+
+const t = labels[currentLocale] || labels.en;
+
+// Liste des langues pour le sélecteur
+const languages = [
+  { code: 'en', label: 'EN', flag: '🇬🇧' },
+  { code: 'fr', label: 'FR', flag: '🇫🇷' },
+  { code: 'es', label: 'ES', flag: '🇪🇸' },
+  { code: 'ar', label: 'AR', flag: '🇸🇦' }
+];
+---
+
+<nav class="k-navbar">
+  <div class="k-container k-d-flex k-align-center k-justify-between">
+    <a href={`${base}/${currentLocale}/`} class="k-logo k-d-flex k-align-center">
+      <img 
+        src={`${base}/logo-fordima.png`} 
+        alt="Fordima Logo" 
+        style="height: 40px; margin-right: 10px;"
+      />
+      <span class="k-d-none k-d-inline-block">FORDIMA <span class="k-text-primary">ACADEMY</span></span>
+    </a>
+
+    <div class="k-d-flex k-align-center">
+      <ul class="k-nav-links k-mr-4" id="main-menu">
+        <li><a href={`${base}/${currentLocale}/docs/`}>{t.docs}</a></li>
+        <li><a href="#books">{t.books}</a></li>
+        
+        <li class="k-ml-2">
+            <select 
+                onchange="window.location.pathname = this.value" 
+                style="padding: 4px; border-radius: 4px; border: 1px solid #ddd; background: #fff; cursor: pointer;"
+            >
+                {languages.map((lang) => (
+                    <option 
+                        value={`${base}/${lang.code}/`} 
+                        selected={currentLocale === lang.code}
+                    >
+                        {lang.flag} {lang.label}
+                    </option>
+                ))}
+            </select>
+        </li>
+      </ul>
+
+      <a href="https://github.com/fomadev" class="k-btn k-btn-primary k-btn-sm" target="_blank" rel="noopener noreferrer">
+        {t.github}
+      </a>
+
+      <button class="k-burger k-ml-2" data-kitoko="burger" data-target="#main-menu">
+        ☰
+      </button>
+    </div>
+  </div>
+</nav>
+
+<style>
+    /* Ajustement spécifique pour le logo en mode RTL */
+    [dir="rtl"] img {
+        margin-right: 0 !important;
+        margin-left: 10px !important;
+    }
+    
+    .k-navbar {
+        border-bottom: 1px solid #f1f5f9;
+    }
+</style>
