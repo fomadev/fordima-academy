@@ -9,11 +9,12 @@ export const defaultLang = 'en';
 
 export const ui = {
   en: {
-    // Navigation
+    // Navigation & Sidebar
     'nav.docs': 'Documentation',
     'nav.books': 'Books',
     'nav.github': 'GitHub',
-    
+    'doc.menu': 'Menu',
+
     // Hero Section
     'hero.title': 'Master Your Development Skills',
     'hero.subtitle': 'Access high-quality documentation for FomaDev projects.',
@@ -26,10 +27,11 @@ export const ui = {
     'footer.contact': 'Contact Us',
   },
   fr: {
-    // Navigation
+    // Navigation & Sidebar
     'nav.docs': 'Documentation',
     'nav.books': 'Livres',
     'nav.github': 'GitHub',
+    'doc.menu': 'Sommaire',
 
     // Hero Section
     'hero.title': 'Maîtrisez votre Développement',
@@ -43,10 +45,11 @@ export const ui = {
     'footer.contact': 'Nous contacter',
   },
   ar: {
-    // Navigation
+    // Navigation & Sidebar
     'nav.docs': 'وثائق',
     'nav.books': 'كتب',
     'nav.github': 'GitHub',
+    'doc.menu': 'قائمة الطعام',
 
     // Hero Section
     'hero.title': 'أتقن مهاراتك في التطوير',
@@ -60,10 +63,11 @@ export const ui = {
     'footer.contact': 'اتصل بنا',
   },
   es: {
-    // Navigation
+    // Navigation & Sidebar
     'nav.docs': 'Documentación',
     'nav.books': 'Libros',
     'nav.github': 'GitHub',
+    'doc.menu': 'Menú',
 
     // Hero Section
     'hero.title': 'Domina tus habilidades',
