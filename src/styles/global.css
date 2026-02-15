@@ -1,0 +1,75 @@
+/* Importation d'une police moderne et lisible */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+:root {
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --bg-light: #f8fafc;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --transition-fast: 0.2s ease-in-out;
+}
+
+* {
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    color: var(--text-main);
+    background-color: #ffffff;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Personnalisation de la barre de défilement (Scrollbar) */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
+}
+
+/* Styles pour le contenu des Documentations */
+article h1, article h2, article h3 {
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+article p {
+    margin-bottom: 1.25rem;
+    font-size: 1.05rem;
+}
+
+/* Style des liens dans les textes */
+article a {
+    color: var(--primary-color);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+/* Style spécifique pour les blocs de code (en plus du layout) */
+pre {
+    border: 1px solid #334155;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Utilitaires supplémentaires non présents dans KitokoCSS */
+.k-glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* Gestion du mode Arabe (RTL) globale */
+[dir="rtl"] {
+    font-family: 'Inter', system-ui, sans-serif; /* À remplacer par une police arabe si besoin */
+}
