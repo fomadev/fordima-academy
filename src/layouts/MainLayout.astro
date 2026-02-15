@@ -1,0 +1,63 @@
+---
+// Récupération des propriétés de la page et de la langue
+const { title, description } = Astro.props;
+const { currentLocale } = Astro;
+
+// Détection automatique du mode RTL pour l'Arabe
+const isRTL = currentLocale === 'ar';
+
+// Gestion du chemin de base pour GitHub Pages (base: '/fordima-academy')
+const base = '/fordima-academy';
+---
+
+<!DOCTYPE html>
+<html lang={currentLocale} dir={isRTL ? 'rtl' : 'ltr'}>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <link rel="icon" type="image/x-icon" href={`${base}/favicon.ico`} />
+    <link rel="icon" type="image/png" sizes="32x32" href={`${base}/favicon-32x32.png`} />
+    <link rel="icon" type="image/png" sizes="16x16" href={`${base}/favicon-16x16.png`} />
+    <link rel="apple-touch-icon" sizes="180x180" href={`${base}/apple-touch-icon.png`} />
+    <link rel="manifest" href={`${base}/site.webmanifest`} />
+
+    <meta name="generator" content={Astro.generator} />
+    <title>{title} | Fordima Academy</title>
+    <meta name="description" content={description} />
+
+    <link 
+        rel="stylesheet" 
+        href="https://cdn.jsdelivr.net/gh/fomadev/kitokocss@1.0.0/dist/css/kitoko.min.css"
+    />
+    
+    <link rel="stylesheet" href={`${base}/styles/global.css`} />
+
+    <style is:global>
+        /* Correction pour le mode RTL (Right-to-Left) */
+        [dir="rtl"] .k-text-left { text-align: right !important; }
+        [dir="rtl"] .k-text-right { text-align: left !important; }
+        [dir="rtl"] .k-navbar .k-nav-links { flex-direction: row-reverse; }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+        main {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <slot name="header" />
+
+    <main>
+        <slot /> </main>
+
+    <slot name="footer" />
+
+    <script src="https://cdn.jsdelivr.net/gh/fomadev/kitokocss@1.0.0/dist/js/kitoko.min.js" defer></script>
+</body>
+</html>
