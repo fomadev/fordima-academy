@@ -1,18 +1,15 @@
 ---
-const { currentLocale } = Astro;
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+// 1. Récupération de la langue et de la fonction de traduction
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+// 2. Configuration de base
 const base = '/fordima-academy';
+const { currentLocale } = Astro;
 
-// Définition des traductions simples pour la navigation
-const labels = {
-  en: { docs: 'Documentation', books: 'Books', github: 'GitHub' },
-  fr: { docs: 'Documentation', books: 'Livres', github: 'GitHub' },
-  es: { docs: 'Documentación', books: 'Libros', github: 'GitHub' },
-  ar: { docs: 'وثائق', books: 'كتب', github: 'GitHub' }
-};
-
-const t = labels[currentLocale] || labels.en;
-
-// Liste des langues pour le sélecteur
+// 3. Liste des langues pour le sélecteur (reste ici car c'est structurel)
 const languages = [
   { code: 'en', label: 'EN', flag: '🇬🇧' },
   { code: 'fr', label: 'FR', flag: '🇫🇷' },
@@ -29,33 +26,48 @@ const languages = [
         alt="Fordima Logo" 
         style="height: 40px; margin-right: 10px;"
       />
-      <span class="k-d-none k-d-inline-block">FORDIMA <span class="k-text-primary">ACADEMY</span></span>
+      <span class="k-d-none k-d-inline-block">
+        FORDIMA <span class="k-text-primary">ACADEMY</span>
+      </span>
     </a>
 
     <div class="k-d-flex k-align-center">
       <ul class="k-nav-links k-mr-4" id="main-menu">
-        <li><a href={`${base}/${currentLocale}/docs/`}>{t.docs}</a></li>
-        <li><a href="#books">{t.books}</a></li>
+        <li>
+          <a href={`${base}/${currentLocale}/docs/`}>
+            {t('nav.docs')}
+          </a>
+        </li>
+        <li>
+          <a href="#books">
+            {t('nav.books')}
+          </a>
+        </li>
         
         <li class="k-ml-2">
-            <select 
-                onchange="window.location.pathname = this.value" 
-                style="padding: 4px; border-radius: 4px; border: 1px solid #ddd; background: #fff; cursor: pointer;"
-            >
-                {languages.map((lang) => (
-                    <option 
-                        value={`${base}/${lang.code}/`} 
-                        selected={currentLocale === lang.code}
-                    >
-                        {lang.flag} {lang.label}
-                    </option>
-                ))}
-            </select>
+          <select 
+            onchange="window.location.pathname = this.value" 
+            style="padding: 4px; border-radius: 4px; border: 1px solid #ddd; background: #fff; cursor: pointer;"
+          >
+            {languages.map((l) => (
+              <option 
+                value={`${base}/${l.code}/`} 
+                selected={currentLocale === l.code}
+              >
+                {l.flag} {l.label}
+              </option>
+            ))}
+          </select>
         </li>
       </ul>
 
-      <a href="https://github.com/fomadev" class="k-btn k-btn-primary k-btn-sm" target="_blank" rel="noopener noreferrer">
-        {t.github}
+      <a 
+        href="https://github.com/fomadev" 
+        class="k-btn k-btn-primary k-btn-sm" 
+        target="_blank" 
+        rel="noopener noreferrer"
+      >
+        {t('nav.github')}
       </a>
 
       <button class="k-burger k-ml-2" data-kitoko="burger" data-target="#main-menu">
@@ -74,5 +86,12 @@ const languages = [
     
     .k-navbar {
         border-bottom: 1px solid #f1f5f9;
+        background-color: #fff; /* Optionnel : assure la lisibilité */
+    }
+
+    /* Petit fix pour l'alignement vertical du select */
+    select {
+        font-family: inherit;
+        font-size: 0.9rem;
     }
 </style>
