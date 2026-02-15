@@ -1,0 +1,58 @@
+---
+import MainLayout from './MainLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+
+const { title, description, sections } = Astro.props;
+const { currentLocale } = Astro;
+const base = '/fordima-academy';
+
+// "sections" sera un tableau d'objets { title: string, link: string }
+---
+
+<MainLayout title={title} description={description}>
+  <Navbar slot="header" />
+
+  <div class="k-container k-mt-4">
+    <div class="k-row">
+      <aside class="k-col-md-3 k-mb-4">
+        <div class="sidebar-content k-p-3" style="background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0; position: sticky; top: 20px;">
+          <h5 class="k-h5 k-mb-3 k-text-primary">Menu</h5>
+          <ul style="list-style: none; padding: 0;">
+            {sections.map((section) => (
+              <li class="k-mb-2">
+                <a 
+                  href={`${base}/${currentLocale}/docs/${section.link}`} 
+                  class="k-text-decoration-none doc-link"
+                  style="color: #475569; font-size: 0.95rem; transition: 0.3s;"
+                >
+                  {section.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </aside>
+
+      <article class="k-col-md-9 k-mb-5">
+        <div class="k-card k-p-4" style="border: none; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+          <slot /> </div>
+      </article>
+    </div>
+  </div>
+
+  <Footer slot="footer" />
+</MainLayout>
+
+<style>
+  .doc-link:hover {
+    color: #2563eb !important;
+    padding-left: 5px;
+  }
+  
+  /* Style pour le texte de la doc */
+  article :global(h1) { color: #0f172a; margin-bottom: 1.5rem; }
+  article :global(h2) { color: #1e293b; margin-top: 2rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; }
+  article :global(pre) { background: #1e293b; color: #fff; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+  article :global(code) { background: #f1f5f9; padding: 2px 5px; border-radius: 4px; color: #e11d48; }
+</style>
