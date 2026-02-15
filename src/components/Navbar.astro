@@ -1,15 +1,11 @@
 ---
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
 
-// 1. Récupération de la langue et de la fonction de traduction
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-
-// 2. Configuration de base
 const base = '/fordima-academy';
-const { currentLocale } = Astro;
 
-// 3. Liste des langues pour le sélecteur (reste ici car c'est structurel)
+// Liste des langues pour le sélecteur (pourrait aussi être dans ui.ts)
 const languages = [
   { code: 'en', label: 'EN', flag: '🇬🇧' },
   { code: 'fr', label: 'FR', flag: '🇫🇷' },
@@ -18,55 +14,42 @@ const languages = [
 ];
 ---
 
-<nav class="k-navbar">
+<nav class="k-navbar k-glass">
   <div class="k-container k-d-flex k-align-center k-justify-between">
-    <a href={`${base}/${currentLocale}/`} class="k-logo k-d-flex k-align-center">
+    <a href={`${base}/${lang}/`} class="k-logo k-d-flex k-align-center">
       <img 
         src={`${base}/logo-fordima.png`} 
         alt="Fordima Logo" 
-        style="height: 40px; margin-right: 10px;"
+        style="height: 40px;"
       />
-      <span class="k-d-none k-d-inline-block">
+      <span class="k-ml-2 k-d-none k-d-md-inline-block">
         FORDIMA <span class="k-text-primary">ACADEMY</span>
       </span>
     </a>
 
     <div class="k-d-flex k-align-center">
       <ul class="k-nav-links k-mr-4" id="main-menu">
-        <li>
-          <a href={`${base}/${currentLocale}/docs/`}>
-            {t('nav.docs')}
-          </a>
-        </li>
-        <li>
-          <a href="#books">
-            {t('nav.books')}
-          </a>
-        </li>
+        <li><a href={`${base}/${lang}/docs/`}>{t('nav.docs')}</a></li>
+        <li><a href="#books">{t('nav.books')}</a></li>
         
         <li class="k-ml-2">
-          <select 
-            onchange="window.location.pathname = this.value" 
-            style="padding: 4px; border-radius: 4px; border: 1px solid #ddd; background: #fff; cursor: pointer;"
-          >
-            {languages.map((l) => (
-              <option 
-                value={`${base}/${l.code}/`} 
-                selected={currentLocale === l.code}
-              >
-                {l.flag} {l.label}
-              </option>
-            ))}
-          </select>
+            <select 
+                onchange="window.location.pathname = this.value" 
+                class="lang-select"
+            >
+                {languages.map((l) => (
+                    <option 
+                        value={`${base}/${l.code}/`} 
+                        selected={lang === l.code}
+                    >
+                        {l.flag} {l.label}
+                    </option>
+                ))}
+            </select>
         </li>
       </ul>
 
-      <a 
-        href="https://github.com/fomadev" 
-        class="k-btn k-btn-primary k-btn-sm" 
-        target="_blank" 
-        rel="noopener noreferrer"
-      >
+      <a href="https://github.com/fomadev" class="k-btn k-btn-primary k-btn-sm" target="_blank">
         {t('nav.github')}
       </a>
 
@@ -78,20 +61,36 @@ const languages = [
 </nav>
 
 <style>
-    /* Ajustement spécifique pour le logo en mode RTL */
-    [dir="rtl"] img {
-        margin-right: 0 !important;
-        margin-left: 10px !important;
-    }
-    
-    .k-navbar {
-        border-bottom: 1px solid #f1f5f9;
-        background-color: #fff; /* Optionnel : assure la lisibilité */
+    .k-glass {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background: rgba(255, 255, 255, 0.8) !important;
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid #e2e8f0;
     }
 
-    /* Petit fix pour l'alignement vertical du select */
-    select {
-        font-family: inherit;
-        font-size: 0.9rem;
+    .lang-select {
+        padding: 5px 10px;
+        border-radius: 20px;
+        border: 1px solid #e2e8f0;
+        background: white;
+        cursor: pointer;
+        font-size: 0.85rem;
+        outline: none;
+    }
+
+    .lang-select:hover {
+        border-color: #2563eb;
+    }
+
+    /* Inversion des marges pour l'Arabe */
+    :global([dir="rtl"]) .k-ml-2 {
+        margin-left: 0 !important;
+        margin-right: 0.5rem !important;
+    }
+    :global([dir="rtl"]) .k-mr-4 {
+        margin-right: 0 !important;
+        margin-left: 1.5rem !important;
     }
 </style>
