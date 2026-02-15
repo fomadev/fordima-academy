@@ -6,7 +6,7 @@ import DocCard from '../../components/DocCard.astro';
 
 // Titre et description pour le SEO
 const title = "Welcome to the Hub of Knowledge";
-const description = "Explore FomaDev official documentations, libraries, and expert tech books.";
+description = "Explore FomaDev official documentations, libraries, and expert tech books.";
 ---
 
 <MainLayout title={title} description={description}>
@@ -42,33 +42,34 @@ const description = "Explore FomaDev official documentations, libraries, and exp
 
     <div class="k-row">
       <div class="k-col-md-4 k-mb-4">
-        <div class="k-card">
-          <div class="k-card-body">
-            <h3 class="k-card-title">KitokoCSS</h3>
-            <p class="k-card-text">The lightweight UI framework you're currently using. Build elegant interfaces fast.</p>
-            <a href="https://github.com/fomadev/kitokocss" class="k-btn k-btn-primary">View GitHub</a>
-          </div>
-        </div>
+        <DocCard 
+          title="KitokoCSS" 
+          description="The lightweight UI framework for elegant interfaces." 
+          type="library"
+          link="https://github.com/fomadev/kitokocss"
+          isExternal={true}
+          badge="Stable"
+        />
       </div>
 
       <div class="k-col-md-4 k-mb-4">
-        <div class="k-card" style="opacity: 0.8; border-style: dashed;">
-          <div class="k-card-body">
-            <h3 class="k-card-title">Kiva-DB <span style="font-size: 0.7rem; background: #eee; padding: 2px 5px; border-radius: 4px;">Soon</span></h3>
-            <p class="k-card-text">A high-performance database system by FomaDev. Documentation is under construction.</p>
-            <button class="k-btn k-btn-outline" disabled>Upcoming</button>
-          </div>
-        </div>
+        <DocCard 
+          title="Kiva-DB" 
+          description="High-performance database system by FomaDev." 
+          type="library"
+          link="/en/docs/kiva-db/"
+          badge="Beta"
+        />
       </div>
 
       <div class="k-col-md-4 k-mb-4">
-        <div class="k-card">
-          <div class="k-card-body">
-            <h3 class="k-card-title">Expert Django</h3>
-            <p class="k-card-text">Complete guide to mastering Python's most powerful web framework.</p>
-            <a href="#" class="k-btn k-btn-outline">Download PDF</a>
-          </div>
-        </div>
+        <DocCard 
+          title="Expert Django" 
+          description="Complete guide to mastering Python's most powerful web framework." 
+          type="book"
+          link="#"
+          badge="PDF"
+        />
       </div>
     </div>
   </section>
@@ -78,11 +79,11 @@ const description = "Explore FomaDev official documentations, libraries, and exp
 </MainLayout>
 
 <style>
-  /* Animation légère sur les cartes */
-  .k-card {
+  /* Animation légère sur les cartes (s'applique aussi aux composants DocCard) */
+  .k-card, :global(.k-card) {
     transition: transform 0.3s ease;
   }
-  .k-card:hover {
+  .k-card:hover, :global(.k-card:hover) {
     transform: translateY(-10px);
   }
 </style>
