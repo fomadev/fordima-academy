@@ -1,0 +1,99 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import DocCard from '../../components/DocCard.astro';
+
+// Import des utilitaires de traduction
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+// Titre et description pour le SEO (Correction du mot-clé const)
+const title = "Bienvenue au Centre de connaissances";
+const description = "Explorez la documentation officielle, les bibliothèques et les ouvrages techniques spécialisés de FomaDev.";
+---
+
+<MainLayout title={title} description={description}>
+  
+  <Navbar slot="header" />
+
+  <section class="k-pt-5 k-pb-5 k-text-center" style="background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%); border-bottom: 1px solid #e2e8f0;">
+    <div class="k-container">
+      <h1 class="k-h1 k-mb-3">
+        {t('hero.title').split('Development')[0]}<span class="k-text-primary">Développement</span> {t('hero.title').split('Development')[1]}
+      </h1>
+      <p class="k-mb-4 k-text-bold" style="color: #64748b; max-width: 600px; margin-left: auto; margin-right: auto;">
+        {t('hero.subtitle')}
+      </p>
+      
+      <div class="k-row k-justify-center">
+        <div class="k-col-md-6">
+          <div style="position: relative;">
+            <input 
+              type="text" 
+              placeholder={t('search.placeholder')} 
+              style="width: 100%; padding: 1.2rem; border-radius: 50px; border: 2px solid #2563eb; font-size: 1rem; outline: none; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="k-container k-mt-5 k-mb-5">
+    <div class="k-d-flex k-justify-between k-align-center k-mb-4">
+      <h2 class="k-h2 k-m-0">En vedette <span class="k-text-primary">Ressources</span></h2>
+      <a href={`/fordima-academy/${lang}/docs/`} class="k-btn k-btn-outline k-btn-sm">
+        {lang === 'fr' ? 'Voir tout' : 'View All'}
+      </a>
+    </div>
+
+    <div class="k-row">
+      <div class="k-col-md-4 k-mb-4">
+        <DocCard 
+          title="KitokoCSS" 
+          description="Le framework d'interface utilisateur léger pour des interfaces élégantes." 
+          type="library"
+          link="https://github.com/fomadev/kitokocss"
+          isExternal={true}
+          badge="Stable"
+        />
+      </div>
+
+      <div class="k-col-md-4 k-mb-4">
+        <DocCard 
+          title="Kiva-DB" 
+          description="Système de base de données haute performance par FomaDev." 
+          type="library"
+          link={`/${lang}/docs/kiva-db/`}
+          badge="Beta"
+        />
+      </div>
+
+      <div class="k-col-md-4 k-mb-4">
+        <DocCard 
+          title="Expert Django" 
+          description="Guide complet pour maîtriser le framework web le plus puissant de Python." 
+          type="book"
+          link="#"
+          badge="PDF"
+        />
+      </div>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+
+</MainLayout>
+
+<style>
+  /* Animation légère sur les cartes */
+  .k-card, :global(.k-card) {
+    transition: transform 0.3s ease;
+  }
+  .k-card:hover, :global(.k-card:hover) {
+    transform: translateY(-10px);
+  }
+</style>
