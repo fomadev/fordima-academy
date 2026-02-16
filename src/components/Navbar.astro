@@ -5,7 +5,7 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const base = '/fordima-academy';
 
-// Configuration des langues avec SVG pour l'interface et Emoji pour le select
+// Configuration des langues
 const languages = [
   { 
     code: 'en', 
@@ -50,14 +50,14 @@ const currentLangData = languages.find(l => l.code === lang) || languages[0];
     </a>
 
     <div class="nav-actions">
-      <ul class="nav-menu-desktop k-d-none k-d-lg-flex">
+      <ul class="nav-menu-desktop">
         <li><a href={`${base}/${lang}/docs/`} class="nav-link">{t('nav.docs')}</a></li>
         <li><a href="#books" class="nav-link">{t('nav.books')}</a></li>
       </ul>
 
-      <div class="divider k-d-none k-d-lg-block"></div>
+      <div class="divider desktop-only"></div>
 
-      <div class="lang-wrapper k-d-none k-d-lg-flex">
+      <div class="lang-wrapper desktop-only">
         <div class="current-flag-icon" set:html={currentLangData.flag} />
         <select onchange="window.location.pathname = this.value" class="premium-lang-select">
           {languages.map((l) => (
@@ -70,10 +70,10 @@ const currentLangData = languages.find(l => l.code === lang) || languages[0];
 
       <a href="https://github.com/fomadev" class="github-btn" target="_blank">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-        <span class="k-d-none k-d-sm-inline">{t('nav.github')}</span>
+        <span class="github-text">{t('nav.github')}</span>
       </a>
 
-      <button class="burger-btn k-d-lg-none" aria-label="Open Menu" id="burger-trigger">
+      <button class="burger-btn" aria-label="Open Menu" id="burger-trigger">
         <span class="line"></span>
         <span class="line"></span>
         <span class="line"></span>
@@ -109,7 +109,7 @@ const currentLangData = languages.find(l => l.code === lang) || languages[0];
 </nav>
 
 <style>
-  /* --- NAVBAR BASE --- */
+  /* --- BASE --- */
   .premium-nav {
     position: sticky;
     top: 0;
@@ -127,55 +127,53 @@ const currentLangData = languages.find(l => l.code === lang) || languages[0];
   .brand-text { font-weight: 800; font-size: 1.1rem; color: #0f172a; }
 
   .nav-actions { display: flex; align-items: center; gap: 1rem; }
-  .nav-menu-desktop { list-style: none; display: flex; gap: 1.5rem; margin: 0; padding: 0; }
+
+  /* --- DESKTOP NAVIGATION --- */
+  .nav-menu-desktop { 
+    list-style: none; 
+    display: flex; 
+    gap: 1.5rem; 
+    margin: 0; 
+    padding: 0; 
+  }
   .nav-link { color: #64748b; text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: color 0.3s; }
   .nav-link:hover { color: #2563eb; }
 
-  /* --- LANGUAGE SELECTOR --- */
+  /* --- ELEMENTS VISUELS --- */
+  .divider { width: 1px; height: 24px; background: #e2e8f0; }
+
   .lang-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: #f1f5f9;
-    padding: 6px 14px;
-    border-radius: 20px;
-    border: 1px solid transparent;
-    transition: 0.3s;
+    display: flex; align-items: center; gap: 10px;
+    background: #f1f5f9; padding: 6px 14px; border-radius: 20px;
+    border: 1px solid transparent; transition: 0.3s;
   }
   .lang-wrapper:hover { border-color: #2563eb; background: white; }
 
   .current-flag-icon {
-    display: flex;
-    align-items: center;
-    border-radius: 2px;
-    overflow: hidden;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    display: flex; align-items: center; border-radius: 2px;
+    overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,0.1);
   }
 
   .premium-lang-select {
-    border: none;
-    background: transparent;
-    font-size: 0.85rem;
-    font-weight: 700;
-    cursor: pointer;
-    outline: none;
-    color: #1e293b;
+    border: none; background: transparent; font-size: 0.85rem;
+    font-weight: 700; cursor: pointer; outline: none; color: #1e293b;
   }
 
-  /* --- BUTTONS --- */
   .github-btn {
     display: flex; align-items: center; gap: 8px; background: #0f172a; color: white;
     padding: 8px 16px; border-radius: 10px; text-decoration: none; font-weight: 600; transition: all 0.3s;
   }
   .github-btn:hover { background: #2563eb; transform: translateY(-2px); }
 
+  /* --- BURGER BUTTON --- */
   .burger-btn {
-    display: flex; flex-direction: column; justify-content: space-between;
+    display: none; /* Masqué par défaut (Desktop) */
+    flex-direction: column; justify-content: space-between;
     width: 26px; height: 18px; background: none; border: none; cursor: pointer; padding: 0;
   }
   .line { width: 100%; height: 3px; background-color: #0f172a; border-radius: 10px; transition: 0.3s; }
 
-  /* --- MOBILE SIDEBAR --- */
+  /* --- MOBILE SIDEBAR & OVERLAY --- */
   .mobile-sidebar {
     position: fixed; top: 0; right: -300px;
     width: 280px; height: 100vh; background: #ffffff;
@@ -208,9 +206,28 @@ const currentLangData = languages.find(l => l.code === lang) || languages[0];
 
   .sidebar-divider { height: 1px; background: #f1f5f9; margin: 1.5rem 0; }
   .sidebar-label { font-size: 0.75rem; text-transform: uppercase; color: #94a3b8; font-weight: 700; margin-bottom: 0.5rem; }
-  .divider { width: 1px; height: 24px; background: #e2e8f0; }
 
-  /* Support RTL (Arabe) */
+  /* --- RESPONSIVE LOGIC (RWD) --- */
+  @media (max-width: 992px) {
+    .nav-menu-desktop, 
+    .desktop-only {
+      display: none !important; /* On cache le menu horizontal */
+    }
+
+    .burger-btn {
+      display: flex; /* On affiche les 3 barres */
+    }
+
+    .github-text {
+      display: none; /* On cache le texte "GitHub" pour gagner de la place, on garde l'icône */
+    }
+    
+    .github-btn {
+      padding: 8px; /* On réduit le padding du bouton GitHub sur mobile */
+    }
+  }
+
+  /* Support RTL */
   :global([dir="rtl"]) .mobile-sidebar { right: auto; left: -300px; }
   :global([dir="rtl"]) .mobile-sidebar.is-active { left: 0; }
 </style>
@@ -241,7 +258,6 @@ const currentLangData = languages.find(l => l.code === lang) || languages[0];
   closeBtn?.addEventListener('click', closeSidebar);
   overlay?.addEventListener('click', closeSidebar);
 
-  // Fermer la sidebar lors du clic sur un lien interne
   const sidebarLinks = document.querySelectorAll('.sidebar-link');
   sidebarLinks.forEach(link => link.addEventListener('click', closeSidebar));
 </script>
