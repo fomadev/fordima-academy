@@ -14,6 +14,8 @@ const languages = [
 ---
 
 <nav class="premium-nav">
+  <div class="menu-overlay" id="menu-overlay"></div>
+
   <div class="k-container nav-wrapper">
     
     <a href={`${base}/${lang}/`} class="brand-container">
@@ -26,18 +28,9 @@ const languages = [
     </a>
 
     <div class="nav-actions">
-      <ul class="nav-menu" id="main-menu">
+      <ul class="nav-menu-desktop k-d-none k-d-lg-flex">
         <li><a href={`${base}/${lang}/docs/`} class="nav-link">{t('nav.docs')}</a></li>
         <li><a href="#books" class="nav-link">{t('nav.books')}</a></li>
-        <li class="k-d-lg-none k-mt-3">
-            <div class="lang-wrapper mobile-lang">
-                <select onchange="window.location.pathname = this.value" class="premium-lang-select">
-                  {languages.map((l) => (
-                    <option value={`${base}/${l.code}/`} selected={lang === l.code}>{l.label}</option>
-                  ))}
-                </select>
-            </div>
-        </li>
       </ul>
 
       <div class="divider k-d-none k-d-lg-block"></div>
@@ -56,21 +49,45 @@ const languages = [
         <span class="k-d-none k-d-sm-inline">{t('nav.github')}</span>
       </a>
 
-      <button class="burger-btn k-d-lg-none" aria-label="Toggle Menu" id="burger-trigger">
+      <button class="burger-btn k-d-lg-none" aria-label="Open Menu" id="burger-trigger">
         <span class="line"></span>
         <span class="line"></span>
         <span class="line"></span>
       </button>
     </div>
   </div>
+
+  <aside class="mobile-sidebar" id="mobile-sidebar">
+    <div class="sidebar-header">
+      <span class="sidebar-title">Menu</span>
+      <button class="close-sidebar" id="close-sidebar">&times;</button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href={`${base}/${lang}/docs/`} class="sidebar-link">{t('nav.docs')}</a>
+      <a href="#books" class="sidebar-link">{t('nav.books')}</a>
+      
+      <div class="sidebar-divider"></div>
+      
+      <p class="sidebar-label">Language</p>
+      <div class="lang-wrapper sidebar-lang">
+        <select onchange="window.location.pathname = this.value" class="premium-lang-select">
+          {languages.map((l) => (
+            <option value={`${base}/${l.code}/`} selected={lang === l.code}>{l.flag} {l.label}</option>
+          ))}
+        </select>
+      </div>
+    </nav>
+  </aside>
 </nav>
 
 <style>
+  /* --- NAVBAR DE BASE --- */
   .premium-nav {
     position: sticky;
     top: 0;
     z-index: 1000;
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(12px) saturate(180%);
     border-bottom: 1px solid rgba(226, 232, 240, 0.7);
     padding: 0.75rem 0;
@@ -82,157 +99,146 @@ const languages = [
     justify-content: space-between;
   }
 
-  .brand-container {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    text-decoration: none;
-  }
-
-  .logo-box {
-    background: #fff;
-    padding: 4px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  }
-
+  .brand-container { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .logo-box { background: #fff; padding: 4px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
   .logo-img { height: 40px; width: auto; }
+  .brand-text { font-weight: 800; font-size: 1.1rem; color: #0f172a; }
 
-  .brand-text {
-    font-weight: 800;
-    font-size: 1.1rem;
-    color: #0f172a;
-  }
+  .nav-actions { display: flex; align-items: center; gap: 1rem; }
 
-  .nav-actions {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  /* Menu Navigation */
-  .nav-menu {
-    display: flex;
-    list-style: none;
-    gap: 1.5rem;
-    margin: 0;
-    padding: 0;
-  }
-
-  .nav-link {
-    color: #64748b;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.95rem;
-    transition: color 0.3s;
-  }
-
+  /* --- DESKTOP MENU --- */
+  .nav-menu-desktop { list-style: none; display: flex; gap: 1.5rem; margin: 0; padding: 0; }
+  .nav-link { color: #64748b; text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: color 0.3s; }
   .nav-link:hover { color: #2563eb; }
 
-  /* Sélecteur de langue */
+  /* --- ELEMENTS COMMUNS --- */
   .lang-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background: #f1f5f9;
-    padding: 6px 12px;
-    border-radius: 20px;
+    display: flex; align-items: center; gap: 6px;
+    background: #f1f5f9; padding: 6px 12px; border-radius: 20px;
   }
-
   .premium-lang-select {
-    border: none;
-    background: transparent;
-    font-size: 0.85rem;
-    font-weight: 700;
-    cursor: pointer;
-    outline: none;
+    border: none; background: transparent; font-size: 0.85rem; font-weight: 700; cursor: pointer; outline: none;
   }
-
-  /* Bouton GitHub */
   .github-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: #0f172a;
-    color: white;
-    padding: 8px 16px;
-    border-radius: 10px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: all 0.3s;
+    display: flex; align-items: center; gap: 8px; background: #0f172a; color: white;
+    padding: 8px 16px; border-radius: 10px; text-decoration: none; font-weight: 600; transition: all 0.3s;
   }
-
   .github-btn:hover { background: #2563eb; transform: translateY(-2px); }
 
-  /* Burger Menu (Lignes) */
+  /* --- BURGER BUTTON --- */
   .burger-btn {
+    display: flex; flex-direction: column; justify-content: space-between;
+    width: 26px; height: 18px; background: none; border: none; cursor: pointer; padding: 0;
+  }
+  .line { width: 100%; height: 3px; background-color: #0f172a; border-radius: 10px; transition: 0.3s; }
+
+  /* --- BARRE LATÉRALE (DRAWER) --- */
+  .mobile-sidebar {
+    position: fixed;
+    top: 0;
+    right: -300px; /* Caché à droite */
+    width: 280px;
+    height: 100vh;
+    background: #ffffff;
+    z-index: 1002;
+    padding: 2rem 1.5rem;
+    box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    width: 30px;
-    height: 20px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
   }
 
-  .line {
+  .mobile-sidebar.is-active {
+    right: 0; /* On l'affiche */
+  }
+
+  .menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 3px;
-    background-color: #0f172a;
-    border-radius: 10px;
-    transition: all 0.3s ease;
+    height: 100vh;
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(4px);
+    z-index: 1001;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.3s;
   }
 
-  /* Responsivité Mobile */
-  @media (max-width: 991px) {
-    .nav-menu {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      background: white;
-      flex-direction: column;
-      padding: 2rem;
-      border-bottom: 1px solid #e2e8f0;
-      clip-path: circle(0% at top right); /* Menu caché par défaut */
-      transition: clip-path 0.5s ease-in-out;
-    }
-
-    .nav-menu.is-active {
-      clip-path: circle(150% at top right); /* Animation d'ouverture */
-    }
-
-    .brand-text { font-size: 0.9rem; }
-    
-    /* Animation du burger en "X" quand actif */
-    .burger-btn.is-active .line:nth-child(1) { transform: translateY(8.5px) rotate(45deg); }
-    .burger-btn.is-active .line:nth-child(2) { opacity: 0; }
-    .burger-btn.is-active .line:nth-child(3) { transform: translateY(-8.5px) rotate(-45deg); }
+  .menu-overlay.is-active {
+    opacity: 1;
+    visibility: visible;
   }
+
+  .sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  .sidebar-title { font-weight: 800; font-size: 1.2rem; color: #0f172a; }
+  .close-sidebar {
+    background: #f1f5f9; border: none; font-size: 1.8rem; line-height: 1;
+    width: 35px; height: 35px; border-radius: 50%; cursor: pointer; color: #64748b;
+  }
+
+  .sidebar-nav { display: flex; flex-direction: column; gap: 1rem; }
+  .sidebar-link {
+    font-size: 1.1rem; font-weight: 600; color: #0f172a;
+    text-decoration: none; padding: 0.8rem 0; border-bottom: 1px solid #f8fafc;
+  }
+
+  .sidebar-divider { height: 1px; background: #f1f5f9; margin: 1.5rem 0; }
+  .sidebar-label { font-size: 0.75rem; text-transform: uppercase; color: #94a3b8; font-weight: 700; margin-bottom: 0.5rem; }
 
   .divider { width: 1px; height: 24px; background: #e2e8f0; }
+
+  /* Inversion pour RTL (Arabe) */
+  :global([dir="rtl"]) .mobile-sidebar {
+    right: auto;
+    left: -300px;
+  }
+  :global([dir="rtl"]) .mobile-sidebar.is-active {
+    left: 0;
+  }
 </style>
 
 <script>
-  // Script pour gérer l'ouverture du menu mobile
+  // On récupère les éléments
   const burger = document.getElementById('burger-trigger');
-  const menu = document.getElementById('main-menu');
+  const sidebar = document.getElementById('mobile-sidebar');
+  const overlay = document.getElementById('menu-overlay');
+  const closeBtn = document.getElementById('close-sidebar');
 
-  if (burger && menu) {
-    burger.addEventListener('click', () => {
-      burger.classList.toggle('is-active');
-      menu.classList.toggle('is-active');
-    });
+  // Fonctions de gestion
+  const openSidebar = () => {
+    // On vérifie que sidebar et overlay existent bien avant de toucher à classList
+    if (sidebar && overlay) {
+      sidebar.classList.add('is-active');
+      overlay.classList.add('is-active');
+      document.body.style.overflow = 'hidden';
+    }
+  };
 
-    // Fermer le menu si on clique sur un lien
-    const links = menu.querySelectorAll('a');
-    links.forEach(link => {
-        link.addEventListener('click', () => {
-            burger.classList.remove('is-active');
-            menu.classList.remove('is-active');
-        });
-    });
-  }
+  const closeSidebar = () => {
+    if (sidebar && overlay) {
+      sidebar.classList.remove('is-active');
+      overlay.classList.remove('is-active');
+      document.body.style.overflow = '';
+    }
+  };
+
+  // On utilise l'optionnel chaîné (?.) pour les écouteurs d'événements
+  // Cela signifie : "Si burger existe, ajoute l'événement, sinon ne fais rien"
+  burger?.addEventListener('click', openSidebar);
+  closeBtn?.addEventListener('click', closeSidebar);
+  overlay?.addEventListener('click', closeSidebar);
+
+  // Pour les liens internes à la sidebar
+  const sidebarLinks = document.querySelectorAll('.sidebar-link');
+  sidebarLinks.forEach(link => {
+    link.addEventListener('click', closeSidebar);
+  });
 </script>
