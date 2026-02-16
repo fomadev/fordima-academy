@@ -1,79 +1,17 @@
 ---
-import MainLayout from '../layouts/MainLayout.astro';
-import Navbar from '../components/Navbar.astro';
-import Footer from '../components/Footer.astro';
-import DocCard from '../components/DocCard.astro';
-
-// Titre et description pour le SEO en Français
-const title = "Bienvenue sur le Hub du Savoir";
-const description = "Explorez les documentations officielles de FomaDev, nos bibliothèques et nos livres techniques.";
+/* src/pages/index.astro */
+/* Ce fichier redirige automatiquement vers la version anglaise par défaut */
 ---
-
-<MainLayout title={title} description={description}>
-  
-  <Navbar slot="header" />
-
-  <section class="k-pt-5 k-pb-5 k-text-center" style="background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%); border-bottom: 1px solid #e2e8f0;">
-    <div class="k-container">
-      <h1 class="k-h1 k-mb-3">Maîtrisez votre <span class="k-text-primary">Développement</span></h1>
-      <p class="k-mb-4 k-text-bold" style="color: #64748b; max-width: 600px; margin-left: auto; margin-right: auto;">
-        Accédez à des documentations de haute qualité pour les projets FomaDev et des ressources pour les frameworks modernes.
-      </p>
-      
-      <div class="k-row k-justify-center">
-        <div class="k-col-md-6">
-          <div style="position: relative;">
-            <input 
-              type="text" 
-              placeholder="Rechercher une lib, un livre, un tuto..." 
-              style="width: 100%; padding: 1.2rem; border-radius: 50px; border: 2px solid #2563eb; font-size: 1rem; outline: none; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="k-container k-mt-5 k-mb-5">
-    <div class="k-d-flex k-justify-between k-align-center k-mb-4">
-      <h2 class="k-h2 k-m-0">Ressources <span class="k-text-primary">Vedettes</span></h2>
-      <a href="/fordima-academy/fr/docs/" class="k-btn k-btn-outline k-btn-sm">Voir Tout</a>
-    </div>
-
-    <div class="k-row">
-      <div class="k-col-md-4 k-mb-4">
-        <DocCard 
-          title="KitokoCSS" 
-          description="Le framework UI léger pour des interfaces élégantes. Fièrement développé par FomaDev." 
-          type="library"
-          link="https://github.com/fomadev/kitokocss"
-          isExternal={true}
-          badge="Stable"
-        />
-      </div>
-
-      <div class="k-col-md-4 k-mb-4">
-        <DocCard 
-          title="Kiva-DB" 
-          description="Système de base de données haute performance. La documentation est en cours de rédaction." 
-          type="library"
-          link="/fr/docs/kiva-db/"
-          badge="Bientôt"
-        />
-      </div>
-
-      <div class="k-col-md-4 k-mb-4">
-        <DocCard 
-          title="Expert Django" 
-          description="Guide complet pour maîtriser le framework web le plus puissant de Python." 
-          type="book"
-          link="#"
-          badge="Livre"
-        />
-      </div>
-    </div>
-  </section>
-
-  <Footer slot="footer" />
-
-</MainLayout>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="refresh" content={`0;url=/fordima-academy/en/`} />
+    <script is:inline>
+      // Optionnel : Rediriger selon la langue du navigateur de l'utilisateur
+      window.location.pathname = '/fordima-academy/en/';
+    </script>
+  </head>
+  <body>
+    <p>Redirecting to <a href="/fordima-academy/en/">Fordima Academy</a>...</p>
+  </body>
+</html>
