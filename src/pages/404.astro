@@ -7,7 +7,6 @@ import { getLangFromUrl, useTranslations } from '../i18n/utils';
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-// Traductions spécifiques pour la 404 (À ajouter idéalement dans ui.ts)
 const errorTitle = {
     en: "Lost in Space?",
     fr: "Perdu dans l'Espace ?",
@@ -33,16 +32,28 @@ const backHome = {
 <MainLayout title="404 - Not Found" description="Page not found">
     <Navbar slot="header" />
 
-    <section class="k-d-flex k-align-center k-justify-center k-text-center" style="min-height: 70vh;">
-        <div class="k-container">
-            <h1 class="k-display-1 k-text-primary k-mb-0" style="font-size: 8rem; font-weight: 900; opacity: 0.2;">404</h1>
-            <h2 class="k-h2 k-mb-3" style="margin-top: -3rem;">{errorTitle[lang] || errorTitle.en}</h2>
-            <p class="k-mb-4 k-text-muted" style="max-width: 500px; margin-left: auto; margin-right: auto;">
-                {errorDesc[lang] || errorDesc.en}
-            </p>
-            <a href={`/fordima-academy/${lang}/`} class="k-btn k-btn-primary k-btn-lg k-px-5">
-                {backHome[lang] || backHome.en}
-            </a>
+    <section class="error-section">
+        <div class="glow-bg"></div>
+
+        <div class="k-container content-wrapper">
+            <div class="error-visual">
+                <h1 class="giant-text">404</h1>
+                <div class="shadow-box"></div>
+            </div>
+
+            <div class="text-content">
+                <h2 class="error-title">{errorTitle[lang] || errorTitle.en}</h2>
+                <p class="error-desc">
+                    {errorDesc[lang] || errorDesc.en}
+                </p>
+                
+                <div class="action-box">
+                    <a href={`/fordima-academy/${lang}/`} class="premium-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-home"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                        <span>{backHome[lang] || backHome.en}</span>
+                    </a>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -50,13 +61,113 @@ const backHome = {
 </MainLayout>
 
 <style>
-    /* Petite animation flottante pour le gros 404 */
-    h1 {
+    .error-section {
+        min-height: 85vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+        background-color: #ffffff;
+    }
+
+    /* Arrière-plan stylisé */
+    .glow-bg {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(circle, rgba(37, 99, 235, 0.08) 0%, rgba(255, 255, 255, 0) 70%);
+        z-index: 0;
+    }
+
+    .content-wrapper {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+    }
+
+    /* Le 404 géant */
+    .error-visual {
+        position: relative;
+        margin-bottom: -2rem;
+    }
+
+    .giant-text {
+        font-size: clamp(8rem, 20vw, 15rem);
+        font-weight: 900;
+        margin: 0;
+        line-height: 1;
+        background: linear-gradient(180deg, #0f172a 30%, #64748b 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        opacity: 0.15;
+        letter-spacing: -5px;
         animation: float 6s ease-in-out infinite;
     }
 
+    /* Le contenu texte */
+    .error-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: #0f172a;
+        margin-bottom: 1rem;
+        letter-spacing: -1px;
+    }
+
+    .error-desc {
+        font-size: 1.1rem;
+        color: #64748b;
+        max-width: 480px;
+        margin: 0 auto 2.5rem;
+        line-height: 1.6;
+    }
+
+    /* Bouton Premium */
+    .premium-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        background: #0f172a;
+        color: white;
+        padding: 16px 32px;
+        border-radius: 14px;
+        text-decoration: none;
+        font-weight: 700;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 10px 25px rgba(15, 23, 42, 0.2);
+    }
+
+    .premium-btn:hover {
+        background: #2563eb;
+        transform: translateY(-3px);
+        box-shadow: 0 15px 30px rgba(37, 99, 235, 0.3);
+    }
+
+    .premium-btn:active {
+        transform: translateY(-1px);
+    }
+
+    .icon-home {
+        transition: transform 0.3s ease;
+    }
+
+    .premium-btn:hover .icon-home {
+        transform: scale(1.1) rotate(-5deg);
+    }
+
+    /* Animation flottante */
     @keyframes float {
-        0%, 100% { transform: translateY(0px); }
-        50% { transform: translateY(-20px); }
+        0%, 100% { transform: translateY(0px) scale(1); }
+        50% { transform: translateY(-25px) scale(1.05); }
+    }
+
+    /* Responsivité */
+    @media (max-width: 768px) {
+        .error-title { font-size: 1.8rem; }
+        .error-desc { font-size: 1rem; padding: 0 1rem; }
+        .giant-text { font-size: 10rem; }
     }
 </style>
