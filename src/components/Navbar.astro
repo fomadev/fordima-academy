@@ -232,7 +232,8 @@ const currentLangData = languages.find(l => l.code === lang) || languages[0];
     select.addEventListener('change', (e) => {
       const target = e.target as HTMLSelectElement;
       if (target.value) {
-        window.location.href = target.value;
+        // Redirige vers la nouvelle URL (ex: /fordima-academy/fr/)
+        window.location.assign(target.value);
       }
     });
   });
