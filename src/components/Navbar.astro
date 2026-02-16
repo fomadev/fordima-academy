@@ -58,7 +58,7 @@ const currentLangData = languages.find(l => l.code === lang) || languages[0];
 
       <div class="lang-wrapper desktop-only">
         <div class="current-flag-icon" set:html={currentLangData.flag} />
-        <select onchange="window.location.pathname = this.value" class="premium-lang-select">
+        <select class="premium-lang-select lang-changer">
           {languages.map((l) => (
             <option value={`${base}/${l.code}/`} selected={lang === l.code}>
               {l.emoji} {l.label}
@@ -95,7 +95,7 @@ const currentLangData = languages.find(l => l.code === lang) || languages[0];
       <p class="sidebar-label">Language</p>
       <div class="lang-wrapper sidebar-lang">
         <div class="current-flag-icon" set:html={currentLangData.flag} />
-        <select onchange="window.location.pathname = this.value" class="premium-lang-select">
+        <select class="premium-lang-select lang-changer">
           {languages.map((l) => (
             <option value={`${base}/${l.code}/`} selected={lang === l.code}>
                {l.emoji} {l.label}
@@ -138,7 +138,7 @@ const currentLangData = languages.find(l => l.code === lang) || languages[0];
     background: #f1f5f9; padding: 6px 14px; border-radius: 20px;
     border: 1px solid transparent; transition: 0.3s;
   }
-  .current-flag-icon { display: flex; align-items: center; border-radius: 2px; overflow: hidden; }
+  .current-flag-icon { display: flex; align-items: center; border-radius: 2px; overflow: hidden; width: 20px; }
   .premium-lang-select { border: none; background: transparent; font-size: 0.85rem; font-weight: 700; cursor: pointer; outline: none; color: #1e293b; }
 
   /* --- BUTTONS --- */
@@ -146,17 +146,17 @@ const currentLangData = languages.find(l => l.code === lang) || languages[0];
   .github-btn:hover { background: #2563eb; transform: translateY(-2px); }
 
   .burger-btn {
-    display: none; /* CACHÉ SUR DESKTOP */
+    display: none;
     flex-direction: column; justify-content: space-between;
     width: 26px; height: 18px; background: none; border: none; cursor: pointer; padding: 0;
   }
   .line { width: 100%; height: 3px; background-color: #0f172a; border-radius: 10px; }
 
-  /* --- MOBILE SIDEBAR (CORRECTIF ICI) --- */
+  /* --- MOBILE SIDEBAR --- */
   .mobile-sidebar {
     position: fixed; 
     top: 0; 
-    right: -100%; /* Sort complètement de l'écran par défaut */
+    right: -100%; 
     width: 280px; 
     height: 100vh; 
     background: #ffffff;
@@ -164,13 +164,10 @@ const currentLangData = languages.find(l => l.code === lang) || languages[0];
     padding: 2rem 1.5rem;
     box-shadow: -10px 0 30px rgba(0,0,0,0.1);
     transition: transform 0.4s ease, right 0.4s ease;
-    display: none; /* NE PAS AFFICHER SUR DESKTOP */
-    flex-direction: column;
+    display: flex; /* Toujours flex mais masqué par right-100% */
   }
 
-  /* Quand on clique sur le burger */
   .mobile-sidebar.is-active {
-    display: flex;
     right: 0;
   }
 
@@ -190,10 +187,13 @@ const currentLangData = languages.find(l => l.code === lang) || languages[0];
   .sidebar-label { font-size: 0.75rem; text-transform: uppercase; color: #94a3b8; font-weight: 700; margin-bottom: 0.5rem; }
 
   /* --- RESPONSIVE LOGIC --- */
+  @media (min-width: 993px) {
+    .mobile-sidebar, .burger-btn, .menu-overlay { display: none !important; }
+  }
+
   @media (max-width: 992px) {
     .nav-menu-desktop, .desktop-only { display: none !important; }
     .burger-btn { display: flex; }
-    .mobile-sidebar { display: flex; } /* On l'autorise à exister mais elle est à right: -100% */
     .github-text { display: none; }
     .github-btn { padding: 8px; }
   }
@@ -204,39 +204,44 @@ const currentLangData = languages.find(l => l.code === lang) || languages[0];
 </style>
 
 <script>
+  // Gestion du Menu Burger
   const burger = document.getElementById('burger-trigger');
   const sidebar = document.getElementById('mobile-sidebar');
   const overlay = document.getElementById('menu-overlay');
   const closeBtn = document.getElementById('close-sidebar');
 
   const openSidebar = () => {
-    if (sidebar && overlay) {
-      sidebar.classList.add('is-active');
-      overlay.classList.add('is-active');
-      document.body.style.overflow = 'hidden';
-    }
+    sidebar?.classList.add('is-active');
+    overlay?.classList.add('is-active');
+    document.body.style.overflow = 'hidden';
   };
 
   const closeSidebar = () => {
-    if (sidebar && overlay) {
-      sidebar.classList.remove('is-active');
-      overlay.classList.remove('is-active');
-      document.body.style.overflow = '';
-    }
+    sidebar?.classList.remove('is-active');
+    overlay?.classList.remove('is-active');
+    document.body.style.overflow = '';
   };
 
   burger?.addEventListener('click', openSidebar);
   closeBtn?.addEventListener('click', closeSidebar);
   overlay?.addEventListener('click', closeSidebar);
 
-  // Fermer si on clique sur un lien de la sidebar
+  // Gestion du Changement de Langue
+  const langChangers = document.querySelectorAll('.lang-changer');
+  langChangers.forEach(select => {
+    select.addEventListener('change', (e) => {
+      const target = e.target as HTMLSelectElement;
+      if (target.value) {
+        window.location.href = target.value;
+      }
+    });
+  });
+
+  // Fermer la sidebar sur lien
   const sidebarLinks = document.querySelectorAll('.sidebar-link');
   sidebarLinks.forEach(link => link.addEventListener('click', closeSidebar));
 
-  // Sécurité : Fermer la sidebar si on agrandit l'écran
   window.addEventListener('resize', () => {
-    if (window.innerWidth > 992) {
-      closeSidebar();
-    }
+    if (window.innerWidth > 992) closeSidebar();
   });
 </script>
